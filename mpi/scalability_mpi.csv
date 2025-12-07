@@ -1,0 +1,4 @@
+num_procs,time_total_ms,time_compute_ms,time_comm_ms,time_allreduce_ms,speedup,efficiency,throughput
+1,310.234,97.280,3.001,0.160,0.4190,0.4190,27398682
+2,282.892,57.536,18.480,15.263,0.4595,0.2298,30046813
+4,257.980,26.614,17.785,12.277,0.5039,0.1260,32948252

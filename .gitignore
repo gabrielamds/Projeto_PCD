@@ -1,0 +1,32 @@
+# Executáveis
+*.exe
+*.out
+*.o
+*.obj
+
+# Arquivos de dados grandes (opcional - descomente se não quiser no repo)
+# data/*.csv
+
+# Resultados de execução (opcional)
+# results/*.csv
+# results/*.txt
+
+# Arquivos temporários
+*.tmp
+*.log
+*.bak
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# Compilação CUDA
+*.cubin
+*.ptx
+*.fatbin

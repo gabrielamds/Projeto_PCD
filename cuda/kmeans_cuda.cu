@@ -308,8 +308,11 @@ KMeansMetrics kmeans_cuda(double* h_X, int N, double* h_C, int K, int* h_assign,
     int grid_N = metrics.grid_size;
     int grid_K = (K + block_size - 1) / block_size;
     if (grid_K < 1) grid_K = 1;
-    int reduce_blocks = (N + block_size * 2 - 1) / (block_size * 2);
+    
+    // Calcular reduce_blocks: mínimo 1, máximo grid_N
+    int reduce_blocks = (grid_N + 1) / 2;  // Reduzir pela metade
     if (reduce_blocks < 1) reduce_blocks = 1;
+    if (reduce_blocks > 1024) reduce_blocks = 1024;  // Limitar para evitar muito overhead
     
     // Alocar memória GPU
     double *d_X, *d_C, *d_partial_sse, *d_block_sums, *d_sum;
@@ -360,11 +363,13 @@ KMeansMetrics kmeans_cuda(double* h_X, int N, double* h_C, int K, int* h_assign,
         assignment_kernel<<<grid_N, block_size>>>(d_X, d_C, d_assign, 
                                                    d_partial_sse, N, K);
         CUDA_CHECK(cudaGetLastError());
+        CUDA_CHECK(cudaDeviceSynchronize());
         
         // Redução para SSE
         reduce_sse_kernel<<<reduce_blocks, block_size, block_size * sizeof(double)>>>(
             d_partial_sse, d_block_sums, N);
         CUDA_CHECK(cudaGetLastError());
+        CUDA_CHECK(cudaDeviceSynchronize());
         
         // Copiar somas parciais e finalizar redução na CPU
         CUDA_CHECK(cudaMemcpy(h_block_sums, d_block_sums, 

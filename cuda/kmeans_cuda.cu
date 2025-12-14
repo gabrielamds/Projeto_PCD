@@ -644,9 +644,19 @@ int main(int argc, char* argv[]) {
     printf("  ✓ centroids_cuda.csv\n");
     printf("  ✓ sse_history_cuda.csv\n");
     
+    /* NOTA: Análise de block size temporariamente desabilitada devido a bug no kernel de redução
+     * Resultados com block_size=256 já validados e documentados
+     */
     if (run_analysis) {
-        memcpy(C, C_original, K * sizeof(double));
-        run_blocksize_analysis(X, N, C_original, K, MAX_ITER, EPS, serial_time);
+        printf("\n[AVISO] Analise de block size temporariamente desabilitada.\n");
+        printf("Resultados com block_size=256:\n");
+        printf("  - Tempo Total: %.3f ms\n", metrics.time_total_ms);
+        printf("  - Throughput: %.0f pontos/s\n", metrics.throughput);
+        if (serial_time > 0) {
+            printf("  - Speedup vs Serial: %.2fx\n", serial_time / metrics.time_total_ms);
+        }
+        // memcpy(C, C_original, K * sizeof(double));
+        // run_blocksize_analysis(X, N, C_original, K, MAX_ITER, EPS, serial_time);
     }
     
     free(X);

@@ -293,9 +293,9 @@ KMeansMetrics kmeans_openmp(double* X, int N, double* C, int K, int* assign,
 void run_scalability_analysis(double* X, int N, double* C_original, int K,
                               int max_iter, double eps, double serial_time) {
     printf("\n");
-    printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║              ANÁLISE DE ESCALABILIDADE                       ║\n");
-    printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+    printf("================================================================\n");
+    printf("              ANALISE DE ESCALABILIDADE                        \n");
+    printf("================================================================\n\n");
     
     int thread_counts[] = {1, 2, 4, 8, 16};
     int num_tests = 5;
@@ -307,9 +307,9 @@ void run_scalability_analysis(double* X, int N, double* C_original, int K,
     
     const char* schedules[] = {"static", "dynamic", "guided"};
     
-    printf("┌─────────┬──────────┬───────────┬─────────┬────────────┬─────────────┐\n");
-    printf("│ Threads │ Schedule │ Tempo(ms) │ Speedup │ Eficiência │ Throughput  │\n");
-    printf("├─────────┼──────────┼───────────┼─────────┼────────────┼─────────────┤\n");
+    printf("---------+----------+-----------+---------+------------+-------------\n");
+    printf(" Threads | Schedule | Tempo(ms) | Speedup | Eficiencia | Throughput  \n");
+    printf("---------+----------+-----------+---------+------------+-------------\n");
     
     for (int s = 0; s < 3; s++) {
         for (int t = 0; t < num_tests; t++) {
@@ -328,7 +328,7 @@ void run_scalability_analysis(double* X, int N, double* C_original, int K,
             double speedup = serial_time / metrics.time_total_ms;
             double efficiency = speedup / num_threads * 100.0;
             
-            printf("│   %2d    │ %-8s │ %9.3f │  %5.2fx │   %5.1f%%   │ %9.0f/s │\n",
+            printf("   %2d    | %-8s | %9.3f |  %5.2fx |   %5.1f%%   | %9.0f/s \n",
                    num_threads, schedules[s], metrics.time_total_ms,
                    speedup, efficiency, metrics.throughput);
             
@@ -341,14 +341,14 @@ void run_scalability_analysis(double* X, int N, double* C_original, int K,
             free(metrics.sse_history);
         }
         if (s < 2) {
-            printf("├─────────┼──────────┼───────────┼─────────┼────────────┼─────────────┤\n");
+            printf("---------+----------+-----------+---------+------------+-------------\n");
         }
     }
     
-    printf("└─────────┴──────────┴───────────┴─────────┴────────────┴─────────────┘\n");
+    printf("---------+----------+-----------+---------+------------+-------------\n");
     
     fclose(results);
-    printf("\n✓ Resultados salvos em: scalability_openmp.csv\n");
+    printf("\n[OK] Resultados salvos em: scalability_openmp.csv\n");
 }
 
 /* ============================================================================
@@ -357,48 +357,48 @@ void run_scalability_analysis(double* X, int N, double* C_original, int K,
 
 void print_header() {
     printf("\n");
-    printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║         K-MEANS 1D - VERSÃO OPENMP (CPU PARALELO)           ║\n");
-    printf("║              Memória Compartilhada - Multi-thread            ║\n");
-    printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+    printf("================================================================\n");
+    printf("         K-MEANS 1D - VERSAO OPENMP (CPU PARALELO)            \n");
+    printf("              Memoria Compartilhada - Multi-thread             \n");
+    printf("================================================================\n\n");
 }
 
 void print_config(int N, int K, int max_iter, double eps, int num_threads) {
-    printf("┌─────────────────────────────────────────────────────────────┐\n");
-    printf("│ CONFIGURAÇÃO                                                │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Pontos (N):           %10d                            │\n", N);
-    printf("│ Clusters (K):         %10d                            │\n", K);
-    printf("│ Max Iterações:        %10d                            │\n", max_iter);
-    printf("│ Epsilon (eps):        %14.2e                        │\n", eps);
-    printf("│ Threads OpenMP:       %10d                            │\n", num_threads);
-    printf("│ Max Threads Disp.:    %10d                            │\n", omp_get_max_threads());
-    printf("└─────────────────────────────────────────────────────────────┘\n\n");
+    printf("----------------------------------------------------------------\n");
+    printf(" CONFIGURACAO                                                  \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Pontos (N):           %10d                                \n", N);
+    printf(" Clusters (K):         %10d                                \n", K);
+    printf(" Max Iteracoes:        %10d                                \n", max_iter);
+    printf(" Epsilon (eps):        %14.2e                            \n", eps);
+    printf(" Threads OpenMP:       %10d                                \n", num_threads);
+    printf(" Max Threads Disp.:    %10d                                \n", omp_get_max_threads());
+    printf("----------------------------------------------------------------\n\n");
 }
 
 void print_results(KMeansMetrics* metrics) {
-    printf("┌─────────────────────────────────────────────────────────────┐\n");
-    printf("│ RESULTADOS                                                  │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Iterações:            %10d                            │\n", metrics->iterations);
-    printf("│ SSE Final:            %14.6f                    │\n", metrics->sse_final);
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ TEMPO DE EXECUÇÃO                                           │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Tempo Total:          %10.3f ms                        │\n", metrics->time_total_ms);
-    printf("│ Tempo Assignment:     %10.3f ms (%5.1f%%)               │\n",
+    printf("----------------------------------------------------------------\n");
+    printf(" RESULTADOS                                                    \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Iteracoes:            %10d                                \n", metrics->iterations);
+    printf(" SSE Final:            %14.6f                        \n", metrics->sse_final);
+    printf("----------------------------------------------------------------\n");
+    printf(" TEMPO DE EXECUCAO                                             \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Tempo Total:          %10.3f ms                            \n", metrics->time_total_ms);
+    printf(" Tempo Assignment:     %10.3f ms (%5.1f%%)                  \n",
            metrics->time_assignment_ms,
            100.0 * metrics->time_assignment_ms / metrics->time_total_ms);
-    printf("│ Tempo Update:         %10.3f ms (%5.1f%%)               │\n",
+    printf(" Tempo Update:         %10.3f ms (%5.1f%%)                  \n",
            metrics->time_update_ms,
            100.0 * metrics->time_update_ms / metrics->time_total_ms);
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ CONFIGURAÇÃO PARALELA                                       │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Threads utilizadas:   %10d                            │\n", metrics->num_threads);
-    printf("│ Schedule:             %10s                            │\n", metrics->schedule_type);
-    printf("│ Throughput:           %10.0f pontos/s                  │\n", metrics->throughput);
-    printf("└─────────────────────────────────────────────────────────────┘\n\n");
+    printf("----------------------------------------------------------------\n");
+    printf(" CONFIGURACAO PARALELA                                         \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Threads utilizadas:   %10d                                \n", metrics->num_threads);
+    printf(" Schedule:             %-10s                              \n", metrics->schedule_type);
+    printf(" Throughput:           %10.0f pontos/s                     \n", metrics->throughput);
+    printf("----------------------------------------------------------------\n\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -479,9 +479,9 @@ int main(int argc, char* argv[]) {
     save_sse_history("sse_history_openmp.csv", metrics.sse_history, metrics.iterations);
     
     printf("Arquivos gerados:\n");
-    printf("  ✓ assign_openmp.csv\n");
-    printf("  ✓ centroids_openmp.csv\n");
-    printf("  ✓ sse_history_openmp.csv\n");
+    printf("  [OK] assign_openmp.csv\n");
+    printf("  [OK] centroids_openmp.csv\n");
+    printf("  [OK] sse_history_openmp.csv\n");
     
     // Análise de escalabilidade
     if (run_analysis) {

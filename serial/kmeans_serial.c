@@ -262,47 +262,47 @@ KMeansMetrics kmeans_serial(double* X, int N, double* C, int K, int* assign,
 
 void print_header() {
     printf("\n");
-    printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║          K-MEANS 1D - VERSÃO SERIAL (SEQUENCIAL)            ║\n");
-    printf("║                  Projeto PCD - Baseline                      ║\n");
-    printf("╚══════════════════════════════════════════════════════════════╝\n\n");
+    printf("================================================================\n");
+    printf("          K-MEANS 1D - VERSAO SERIAL (SEQUENCIAL)              \n");
+    printf("                  Projeto PCD - Baseline                        \n");
+    printf("================================================================\n\n");
 }
 
 void print_config(int N, int K, int max_iter, double eps) {
-    printf("┌─────────────────────────────────────────────────────────────┐\n");
-    printf("│ CONFIGURAÇÃO                                                │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Pontos (N):           %10d                            │\n", N);
-    printf("│ Clusters (K):         %10d                            │\n", K);
-    printf("│ Max Iterações:        %10d                            │\n", max_iter);
-    printf("│ Epsilon (eps):        %14.2e                        │\n", eps);
-    printf("│ Semente (seed):       %10d                            │\n", SEED);
-    printf("└─────────────────────────────────────────────────────────────┘\n\n");
+    printf("----------------------------------------------------------------\n");
+    printf(" CONFIGURACAO                                                  \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Pontos (N):           %10d                                \n", N);
+    printf(" Clusters (K):         %10d                                \n", K);
+    printf(" Max Iteracoes:        %10d                                \n", max_iter);
+    printf(" Epsilon (eps):        %14.2e                            \n", eps);
+    printf(" Semente (seed):       %10d                                \n", SEED);
+    printf("----------------------------------------------------------------\n\n");
 }
 
 void print_results(KMeansMetrics* metrics, int N) {
-    printf("┌─────────────────────────────────────────────────────────────┐\n");
-    printf("│ RESULTADOS                                                  │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Iterações:            %10d                            │\n", metrics->iterations);
-    printf("│ SSE Final:            %14.6f                    │\n", metrics->sse_final);
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ TEMPO DE EXECUÇÃO                                           │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Tempo Total:          %10.3f ms                        │\n", metrics->time_total_ms);
-    printf("│ Tempo Assignment:     %10.3f ms (%5.1f%%)               │\n", 
+    printf("----------------------------------------------------------------\n");
+    printf(" RESULTADOS                                                    \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Iteracoes:            %10d                                \n", metrics->iterations);
+    printf(" SSE Final:            %14.6f                        \n", metrics->sse_final);
+    printf("----------------------------------------------------------------\n");
+    printf(" TEMPO DE EXECUCAO                                             \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Tempo Total:          %10.3f ms                            \n", metrics->time_total_ms);
+    printf(" Tempo Assignment:     %10.3f ms (%5.1f%%)                  \n", 
            metrics->time_assignment_ms,
            100.0 * metrics->time_assignment_ms / metrics->time_total_ms);
-    printf("│ Tempo Update:         %10.3f ms (%5.1f%%)               │\n", 
+    printf(" Tempo Update:         %10.3f ms (%5.1f%%)                  \n", 
            metrics->time_update_ms,
            100.0 * metrics->time_update_ms / metrics->time_total_ms);
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ DESEMPENHO                                                  │\n");
-    printf("├─────────────────────────────────────────────────────────────┤\n");
-    printf("│ Throughput:           %10.0f pontos/segundo            │\n", metrics->throughput);
-    printf("│ Tempo por iteração:   %10.3f ms                        │\n", 
+    printf("----------------------------------------------------------------\n");
+    printf(" DESEMPENHO                                                    \n");
+    printf("----------------------------------------------------------------\n");
+    printf(" Throughput:           %10.0f pontos/segundo                \n", metrics->throughput);
+    printf(" Tempo por iteracao:   %10.3f ms                            \n", 
            metrics->time_total_ms / metrics->iterations);
-    printf("└─────────────────────────────────────────────────────────────┘\n\n");
+    printf("----------------------------------------------------------------\n\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -374,9 +374,9 @@ int main(int argc, char* argv[]) {
     save_sse_history("sse_history_serial.csv", metrics.sse_history, metrics.iterations);
     
     printf("Arquivos gerados:\n");
-    printf("  ✓ assign_serial.csv       (atribuição de clusters)\n");
-    printf("  ✓ centroids_serial.csv    (centróides finais)\n");
-    printf("  ✓ sse_history_serial.csv  (convergência do SSE)\n\n");
+    printf("  [OK] assign_serial.csv       (atribuicao de clusters)\n");
+    printf("  [OK] centroids_serial.csv    (centroides finais)\n");
+    printf("  [OK] sse_history_serial.csv  (convergencia do SSE)\n\n");
     
     // Liberar memória
     free(X);
